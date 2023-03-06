@@ -32,3 +32,21 @@ def process_text(text):
     llm = OpenAI(model_name="gpt-3.5-turbo")
 
     return llm(prompt)
+
+def process_description(text, features):
+    prompt = build_description_prompt(text, features)
+
+    llm = OpenAI(model_name="gpt-3.5-turbo")
+
+    return llm(prompt)
+
+def build_description_prompt(text, features):
+    prompt = '### We have a real estate listing with the following description:\n'
+
+    for feature in features:
+        prompt += f'Based on this listing, does the property have the feature titled {feature}?\n'
+
+    prompt += 'Respond with a JSON object containing the {Feature Title} as the key, and {True / False} as the value.\n'
+    prompt += '###'
+
+    return prompt

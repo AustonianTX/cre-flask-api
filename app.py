@@ -4,10 +4,22 @@ import json
 
 from pdf import extract_text
 
-from ai import process_text
+from ai import process_text, process_description
 
 app = Flask(__name__)
 
+
+@app.route('/description', methods=['POST'])
+def brochure():
+
+    req_body = request.get_json()
+
+    text = req_body.get('description')
+    features = req_body.get('features')
+
+    ai_response = process_description(text, features)
+
+    return ai_response
 
 @app.route('/upload', methods=['POST'])
 def upload():
